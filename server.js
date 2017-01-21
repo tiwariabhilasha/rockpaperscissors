@@ -1,18 +1,23 @@
-var express = require('express');
+var express = require("express");
+var app     = express();
+var path    = require("path");
 
-var app = express();
 
-
-var http = require('http'),
-    fs = require('fs');
-    var main = require('./js/main')
-
-var server = http.createServer (function (req,res){
-	console.log('request was made:' + req.url);
-	res.writeHead(200);
-	var myReadStream = fs.createReadStream(__dirname + '/index.html','utf-8');
-	myReadStream.pipe(res);
+app.get('/',function(req,res){
+  res.sendFile(path.join(__dirname+'/index.html'));
+  //__dirname : It will resolve to your project folder.
 });
 
-server.listen(3000,'127.0.0.1');
-console.log("server has started");
+app.get('/css/main.css',function(req,res){
+    res.sendFile(path.join(__dirname + '/css/main.css')); 
+});
+
+app.get('/js/main.js',function(req,res){
+    res.sendFile(path.join(__dirname + '/js/main.js')); 
+});
+
+
+
+app.listen(3000);
+
+console.log("Running at Port 3000");
